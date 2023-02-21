@@ -19,7 +19,7 @@ public class BookAndCategoryController {
 	@Autowired
 	private BookService bookService;
 	
-	@PostMapping("/admin/addcategory")
+	@PostMapping("/admin/addcat")
 	public ResponseEntity<String> addCategory(@RequestBody Category category)
 	{
 		try {
@@ -41,7 +41,7 @@ public class BookAndCategoryController {
 	public ResponseEntity<String> addBook(@RequestBody Book book)
 	{
 		try {
-			if(book!=null && book.getCategory()!=null)
+			if(book!=null)
 			{
 					bookService.addBook(book);
 			}
