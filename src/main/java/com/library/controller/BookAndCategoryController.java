@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.library.model.Book;
+import com.library.model.BookRequest;
 import com.library.model.Category;
 import com.library.service.BookService;
 import com.library.service.CategoryService;
@@ -27,29 +28,42 @@ public class BookAndCategoryController {
 			{
 				CategoryService.addCategory(category);
 			}
+			else
+			{
+				return new ResponseEntity<>("Category is null !!",HttpStatus.BAD_REQUEST);
+			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			return new ResponseEntity<>("Category is null !!",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Category addition is failed !!",HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("Category added sucessfully !!", HttpStatus.OK);
 	}
 	
 	
 	@PostMapping("/admin/addbook")
-	public ResponseEntity<String> addBook(@RequestBody Book book)
+	public ResponseEntity<String> addBook(@RequestBody BookRequest bookRequest)
 	{
 		try {
-			if(book!=null)
+			if(bookRequest!=null)
 			{
-					bookService.addBook(book);
+//					String bookName = bookRequest.getBookName();
+//					Integer categoryId = bookRequest.getCategoryId();
+//					Book book = null;
+//					book.setBookName(bookName);
+//					book.set
+					bookService.addBook(bookRequest);
+			}
+			else
+			{
+				return new ResponseEntity<>("Book is null !!",HttpStatus.BAD_REQUEST);
 			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			return new ResponseEntity<>("Book is null !!",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Book addition is failed!!",HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("Book added sucessfully !!", HttpStatus.OK);
 	}

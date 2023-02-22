@@ -1,5 +1,7 @@
 package com.library.model;
 
+import org.springframework.context.annotation.ComponentScan;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@ComponentScan
 public class Book {
 
 	@Id
