@@ -16,15 +16,11 @@ public class BookService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	@Autowired(required = false)
-	private Book book;
-	
 	public void addBook(BookRequest bookRequest)
 	{
-		//Book book = null;
 		String bookRequestName = bookRequest.getBookName();
 		Integer requestCategoryId = bookRequest.getCategoryId();
-		
+		Book book = new Book();
 		book.setBookName(bookRequestName);
 		book.setCategory(categoryRepository.findById(requestCategoryId).get());
 		bookRepository.save(book);
