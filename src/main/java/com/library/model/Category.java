@@ -1,6 +1,11 @@
 package com.library.model;
 
+
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +24,7 @@ public class Category {
 	private String categoryName;
 	
 	@OneToMany(mappedBy = "category")
+	@JsonManagedReference
 	private List<Book> books;
 
 	public int getId() {

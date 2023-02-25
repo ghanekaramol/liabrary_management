@@ -1,7 +1,7 @@
 package com.library.model;
 
 
-public class BookRequest {
+public class BookDTO {
 
 	private String bookName;
 	private int categoryId;

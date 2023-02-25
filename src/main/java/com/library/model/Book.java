@@ -2,6 +2,9 @@ package com.library.model;
 
 import org.springframework.context.annotation.ComponentScan;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +26,7 @@ public class Book {
 	
 	@ManyToOne
 	@JoinColumn(name="Category_Id")
+	@JsonBackReference
 	private Category category;
 
 	public int getBookId() {
