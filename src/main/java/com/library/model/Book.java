@@ -3,8 +3,6 @@ package com.library.model;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

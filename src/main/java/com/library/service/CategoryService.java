@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.library.model.Category;
-import com.library.model.CategoryDTO;
 import com.library.repository.CategoryRepository;
 
 @Service
@@ -38,15 +37,14 @@ public class CategoryService {
 		categoryRepository.deleteById(categoryId);
 	}
 	
-	public Category updateCategory(Category category )
+	//update Category
+	public Category updateCategory(Category category)
 	{
-		Category cat = new Category();
-		
-			
-		category.setCategoryNamecat.getCategoryName()))
+		Category cat = categoryRepository.findById(category.getId()).get();
+		cat.setCategoryName(category.getCategoryName());
 		category.setBooks(cat.getBooks());
-			
-		return categoryRepositorysave(category));
+		return categoryRepository.save(cat);
+		
 	}
 		
 

@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.library.model.Book;
 import com.library.model.BookDTO;
 import com.library.model.Category;
 import com.library.service.BookService;
@@ -47,7 +49,7 @@ public class BookAndCategoryController {
 	}
 	
 	// Retrieving a category
-	@GetMapping("/admin/getCategory")
+	@GetMapping("/getCategory")
 	public ResponseEntity<Category> getCategory(@RequestBody Integer categoryId)
 	{
 		try {
@@ -61,7 +63,7 @@ public class BookAndCategoryController {
 	}
 	
 	//Retrieving list of Category
-	@GetMapping("/admin/getAllCategory")
+	@GetMapping("/getAllCategory")
 	public ResponseEntity<List<Category>> getAllCategory()
 	{
 		try {
@@ -89,7 +91,19 @@ public class BookAndCategoryController {
 		}
 	}
 	
-	
+	@PutMapping("/admin/updateCategory")
+	public ResponseEntity<Category> updateCategory(@RequestBody Category category)
+	{
+		try {
+			CategoryService.updateCategory(category);
+			System.out.println("try executing"+category);
+			return new ResponseEntity<>(category,HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println("catch is executing");
+			System.out.println(category);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	
 	
@@ -114,4 +128,47 @@ public class BookAndCategoryController {
 		return new ResponseEntity<>("Book added sucessfully !!", HttpStatus.OK);
 	}
 	
+	@GetMapping("/getBook")
+	public ResponseEntity<Book> getBook(@RequestBody Integer bookId)
+	{
+		try {
+			return new ResponseEntity<>(bookService.getBook(bookId),HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/getAllBooks")
+	public ResponseEntity<List> getAllBooks()
+	{
+		try {
+			return new ResponseEntity<>(bookService.getAllBook(),HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@DeleteMapping("/admin/deleteBook")
+	public ResponseEntity<String> deleteBook(@RequestBody Integer bookId)
+	{
+		bookService.deleteBook(bookId);
+		return new ResponseEntity<>("Book deleted where book id is = " + bookId,HttpStatus.OK);
+	}
+	
+	@PutMapping("/admin/updateBook")
+	public ResponseEntity<Book> updateBook(@RequestBody Book book)
+	{
+		try {
+			System.out.println(book);
+			return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }
