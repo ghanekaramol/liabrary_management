@@ -25,5 +25,28 @@ public class UserService {
 		user.setRoles(roles);
 		userRepository.save(user);
 	}
+
+	public void deleteStudent(Integer studentId) {
+		
+		userRepository.deleteById(studentId);
+		
+	}
+	
+	public User removeRole(Integer id)
+	{
+		User user = userRepository.findById(id).get();
+		user.setRoles(null);
+		return userRepository.save(user);
+	}
+	
+	public User assignRole(Integer id)
+	{
+		User user = userRepository.findById(id).get();
+		Set<Role> roles = new HashSet<>();
+		
+		roles.add(roleRepository.findById(2).get());
+		user.setRoles(roles);
+		return userRepository.save(user);
+	}
 	
 }

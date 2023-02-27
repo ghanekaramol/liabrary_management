@@ -17,7 +17,7 @@ public class User{
 
 	@Id
 	@Column(name="User_Id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@Column(name = "First_Name")
 	private String firstName;
@@ -29,7 +29,7 @@ public class User{
 	private String password;
 	
 	
-	@ManyToMany(targetEntity = User.class)
+	@ManyToMany
 	@JoinTable(name="User_Role", 
 			joinColumns= {@JoinColumn(name = "User_Id")}
 			,inverseJoinColumns = {@JoinColumn(name = "Role_Id")})
@@ -46,6 +46,14 @@ public class User{
 		this.password = password;
 		this.roles = roles;
 	}
+	
+	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 
 	public int getId() {
