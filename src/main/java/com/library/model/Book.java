@@ -19,9 +19,19 @@ public class Book {
 	@Column(name="Book_Id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int bookId;
+	@Column(name="Issue_status")
+	private String issueStatus;
 	@Column(name="Book_Name")
 	private String bookName;
 	
+	public Book(int bookId, String issueStatus, String bookName, Category category) {
+		super();
+		this.bookId = bookId;
+		this.issueStatus = issueStatus;
+		this.bookName = bookName;
+		this.category = category;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="Category_Id")
 	@JsonBackReference
@@ -56,11 +66,12 @@ public class Book {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Book(int bookId, String bookName, Category category) {
-		super();
-		this.bookId = bookId;
-		this.bookName = bookName;
-		this.category = category;
+	public String getIssueStatus() {
+		return issueStatus;
+	}
+
+	public void setIssueStatus(String issueStatus) {
+		this.issueStatus = issueStatus;
 	}
 
 	@Override

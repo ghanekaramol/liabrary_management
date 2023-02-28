@@ -171,4 +171,48 @@ public class BookAndCategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping("/admin/issueBook")
+	public ResponseEntity<String> issueBook(@RequestBody Integer bookId)
+	{
+		try {
+			bookService.issueBook(bookId);
+			return new ResponseEntity<>("Book is issued !!",HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>("Book can't be issued..!",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/admin/removeIssueBook")
+	public ResponseEntity<String> removeIssuedBook(@RequestBody Integer bookId)
+	{
+		try {
+			bookService.removeIssuedBook(bookId);
+			return new ResponseEntity<>("Book is removed from issue status ..!!",HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>("Can't change the issue status...!",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/admin/listOfIssuedBook")
+	public ResponseEntity<List<Book>> listOfIssueBook()
+	{
+		try {
+			return new ResponseEntity<>(bookService.listOfIssueBook(),HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	
+	
+	
+	
 }

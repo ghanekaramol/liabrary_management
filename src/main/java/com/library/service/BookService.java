@@ -53,8 +53,72 @@ public class BookService {
 		Book bookObj = bookRepository.findById(book.getBookId()).get();
 		bookObj.setBookName(book.getBookName());
 		book.setCategory(bookObj.getCategory());
-		
-		return bookRepository.save(bookObj);
+		return bookRepository.save(bookObj);	
+	}
+	
+	public Book issueBook(Integer bookId) throws Exception
+	{
+		try {
+		Book book = bookRepository.findById(bookId).get();
+		if(book.getIssueStatus() == null)
+		{
+			book.setIssueStatus("Issued");
+			return bookRepository.save(book);
+		}
+		else {
+			throw new Exception("Book is issued already");
+		}
+		}
+		catch(Exception e)
+		{
+			throw new Exception("Error during issuing book..");
+		}	
+	}
+	
+	public Book removeIssuedBook(Integer bookId) throws Exception
+	{
+		try {
+		Book book = bookRepository.findById(bookId).get();
+		if(book.getIssueStatus()!=null)
+		{
+			book.setIssueStatus(null);
+			return bookRepository.save(book);
+		}
+		else {
+			throw new Exception();
+		}
+		}catch(Exception e)
+		{
+			throw new Exception();
+		}
 		
 	}
+
+
+	public List<Book> listOfIssueBook() throws Exception
+	{
+		 List<Book> book = bookRepository.findAll();
+		try {
+		 for(Book b : book)
+		 {
+			 if(b.getIssueStatus()!=null)
+			 {
+				 return bookRepository.findAll() != null?book:null;
+			 }
+			 else
+			 {
+				 throw new Exception("None of the book is issued .. !");
+			 }
+		 }
+		}catch(Exception e)
+		{
+			throw new Exception("None of the book is issued .. !");
+		}
+		return book;
+	}
+
+
+
+
+
 }

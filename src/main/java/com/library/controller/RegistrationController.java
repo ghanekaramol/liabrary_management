@@ -51,7 +51,7 @@ public class RegistrationController {
 	public ResponseEntity<String> assignRole(@RequestBody Integer id)
 	{
 		try {
-			userService.removeRole(id);
+			userService.assignRole(id);
 			return new ResponseEntity<>("Student role is assigned to selected user.",HttpStatus.OK);
 		}
 		catch(Exception e)

@@ -32,11 +32,17 @@ public class UserService {
 		
 	}
 	
-	public User removeRole(Integer id)
+	public User removeRole(Integer id) throws Exception
 	{
 		User user = userRepository.findById(id).get();
+		if(id == user.getId())
+		{
 		user.setRoles(null);
 		return userRepository.save(user);
+		}
+		else {
+			throw new Exception("User's role is removed already.") ;
+		}
 	}
 	
 	public User assignRole(Integer id)
