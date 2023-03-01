@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.library.model.User;
+import com.library.repository.UserRepository;
 import com.library.service.UserService;
 
 @RestController
@@ -61,7 +63,7 @@ public class RegistrationController {
 	}
 	
 	
-	@DeleteMapping("/admin/deleteStudent")
+	@DeleteMapping("/admin/deleteUser")
 	public ResponseEntity<String> deleteStudent(@RequestBody Integer studentId)
 	{
 		try {
@@ -72,6 +74,12 @@ public class RegistrationController {
 		{
 			return new ResponseEntity<>("User deletion failed !!", HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PutMapping("/admin/updateUser")
+	public ResponseEntity<User> updateUser(@RequestBody User user)
+	{
+		return new ResponseEntity<>(userService.updateStudent(user),HttpStatus.OK);
 	}
 	
 }

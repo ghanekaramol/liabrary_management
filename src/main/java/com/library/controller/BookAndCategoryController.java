@@ -91,6 +91,7 @@ public class BookAndCategoryController {
 		}
 	}
 	
+	//update a category
 	@PutMapping("/admin/updateCategory")
 	public ResponseEntity<Category> updateCategory(@RequestBody Category category)
 	{
@@ -106,7 +107,7 @@ public class BookAndCategoryController {
 	}
 	
 	
-	
+	//adding a book
 	@PostMapping("/admin/addbook")
 	public ResponseEntity<String> addBook(@RequestBody BookDTO bookRequest)
 	{
@@ -128,6 +129,7 @@ public class BookAndCategoryController {
 		return new ResponseEntity<>("Book added sucessfully !!", HttpStatus.OK);
 	}
 	
+	//retrieve a book
 	@GetMapping("/getBook")
 	public ResponseEntity<Book> getBook(@RequestBody Integer bookId)
 	{
@@ -140,8 +142,9 @@ public class BookAndCategoryController {
 		}
 	}
 	
+	//get all book as a list
 	@GetMapping("/getAllBooks")
-	public ResponseEntity<List> getAllBooks()
+	public ResponseEntity<List<Book>> getAllBooks()
 	{
 		try {
 			return new ResponseEntity<>(bookService.getAllBook(),HttpStatus.OK);
@@ -152,6 +155,7 @@ public class BookAndCategoryController {
 		}
 	}
 	
+	//delete a book
 	@DeleteMapping("/admin/deleteBook")
 	public ResponseEntity<String> deleteBook(@RequestBody Integer bookId)
 	{
@@ -172,19 +176,16 @@ public class BookAndCategoryController {
 		}
 	}
 	
+	//issuing a book
 	@PostMapping("/admin/issueBook")
-	public ResponseEntity<String> issueBook(@RequestBody Integer bookId)
+	public ResponseEntity<String> issueBook(@RequestBody BookDTO bookDto) throws Exception
 	{
-		try {
-			bookService.issueBook(bookId);
+			bookService.issueBook(bookDto);
 			return new ResponseEntity<>("Book is issued !!",HttpStatus.OK);
-		}
-		catch(Exception e)
-		{
-			return new ResponseEntity<>("Book can't be issued..!",HttpStatus.BAD_REQUEST);
-		}
 	}
+		
 	
+	//removing book from issue status
 	@PostMapping("/admin/removeIssueBook")
 	public ResponseEntity<String> removeIssuedBook(@RequestBody Integer bookId)
 	{
@@ -198,21 +199,14 @@ public class BookAndCategoryController {
 		}
 	}
 	
+	// list of all issued book
 	@GetMapping("/admin/listOfIssuedBook")
-	public ResponseEntity<List<Book>> listOfIssueBook()
+	public ResponseEntity<List<Book>> listOfIssueBook() throws Exception
 	{
-		try {
 			return new ResponseEntity<>(bookService.listOfIssueBook(),HttpStatus.OK);
-		}
-		catch(Exception e)
-		{
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		
 	}
 	
 	
-	
-	
-	
-	
+		
 }

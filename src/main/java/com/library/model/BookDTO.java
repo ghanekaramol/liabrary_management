@@ -5,6 +5,20 @@ public class BookDTO {
 
 	private String bookName;
 	private int categoryId;
+	private int bookId;
+	private int userId;
+	public int getBookId() {
+		return bookId;
+	}
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public String getBookName() {
 		return bookName;
 	}

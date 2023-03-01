@@ -24,11 +24,15 @@ public class Book {
 	@Column(name="Book_Name")
 	private String bookName;
 	
-	public Book(int bookId, String issueStatus, String bookName, Category category) {
+	@ManyToOne
+	private User user;
+
+	public Book(int bookId, String issueStatus, String bookName, User user, Category category) {
 		super();
 		this.bookId = bookId;
 		this.issueStatus = issueStatus;
 		this.bookName = bookName;
+		this.user = user;
 		this.category = category;
 	}
 
@@ -74,10 +78,15 @@ public class Book {
 		this.issueStatus = issueStatus;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [bookId=" + bookId + ", bookName=" + bookName + ", category=" + category + "]";
+	public User getUser() {
+		return user;
 	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
 	
 	
 }

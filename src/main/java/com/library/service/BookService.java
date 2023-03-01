@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.library.model.Book;
 import com.library.model.BookDTO;
+import com.library.model.User;
 import com.library.repository.BookRepository;
 import com.library.repository.CategoryRepository;
+import com.library.repository.UserRepository;
 
 @Service
 public class BookService {
@@ -17,6 +19,9 @@ public class BookService {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	//adding a book
 	public void addBook(BookDTO bookRequest)
@@ -56,24 +61,23 @@ public class BookService {
 		return bookRepository.save(bookObj);	
 	}
 	
-	public Book issueBook(Integer bookId) throws Exception
+	//issue a book
+	public Book issueBook(BookDTO bookDto) throws Exception
 	{
-		try {
-		Book book = bookRepository.findById(bookId).get();
+			
+		Book book = bookRepository.findById(bookDto.getBookId()).get();
+		User user = userRepository.findById(bookDto.getUserId()).get();
 		if(book.getIssueStatus() == null)
 		{
 			book.setIssueStatus("Issued");
+			book.setUser(user);
 			return bookRepository.save(book);
 		}
 		else {
 			throw new Exception("Book is issued already");
 		}
 		}
-		catch(Exception e)
-		{
-			throw new Exception("Error during issuing book..");
-		}	
-	}
+			
 	
 	public Book removeIssuedBook(Integer bookId) throws Exception
 	{
@@ -82,6 +86,7 @@ public class BookService {
 		if(book.getIssueStatus()!=null)
 		{
 			book.setIssueStatus(null);
+			book.setUser(null);
 			return bookRepository.save(book);
 		}
 		else {
@@ -94,31 +99,10 @@ public class BookService {
 		
 	}
 
-
+	//list of issued book
 	public List<Book> listOfIssueBook() throws Exception
 	{
-		 List<Book> book = bookRepository.findAll();
-		try {
-		 for(Book b : book)
-		 {
-			 if(b.getIssueStatus()!=null)
-			 {
-				 return bookRepository.findAll() != null?book:null;
-			 }
-			 else
-			 {
-				 throw new Exception("None of the book is issued .. !");
-			 }
-		 }
-		}catch(Exception e)
-		{
-			throw new Exception("None of the book is issued .. !");
-		}
-		return book;
+		return bookRepository.findAllIssuedBook();	
 	}
-
-
-
-
 
 }

@@ -1,5 +1,6 @@
 package com.library.model;
 
+import java.util.List;
 import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,9 +37,19 @@ public class User{
 			,inverseJoinColumns = {@JoinColumn(name = "Role_Id")})
 	
 	private Set<Role> roles;
+	
+	@OneToMany
+	@JoinTable(name="User_Book", 
+	joinColumns= {@JoinColumn(name = "User_Id")}
+	,inverseJoinColumns = {@JoinColumn(name = "Book_Id")})
+	private List<Book> books;
 
 
-	public User(int id, String firstName, String lastName, String emailid, String password, Set<Role> roles) {
+	
+	
+	
+	public User(int id, String firstName, String lastName, String emailid, String password, Set<Role> roles,
+			List<Book> books) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -45,15 +57,14 @@ public class User{
 		this.emailid = emailid;
 		this.password = password;
 		this.roles = roles;
+		this.books = books;
 	}
-	
-	
+
+
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 
 	public int getId() {
@@ -113,6 +124,16 @@ public class User{
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 	
 

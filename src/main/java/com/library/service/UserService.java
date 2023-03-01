@@ -32,6 +32,19 @@ public class UserService {
 		
 	}
 	
+	public User updateStudent(User user)
+	{
+		
+		User userDb = userRepository.findByEmailid(user.getEmailid());
+		userDb.setFirstName(user.getFirstName());
+		userDb.setLastName(user.getLastName());
+		userDb.setEmailid(user.getEmailid());
+		userDb.setPassword(user.getPassword());
+		
+		return userRepository.save(userDb);
+		
+	}
+	
 	public User removeRole(Integer id) throws Exception
 	{
 		User user = userRepository.findById(id).get();
