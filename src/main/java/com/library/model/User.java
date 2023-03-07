@@ -2,6 +2,9 @@ package com.library.model;
 
 import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,13 +46,14 @@ public class User{
 	joinColumns= {@JoinColumn(name = "User_Id")}
 	,inverseJoinColumns = {@JoinColumn(name = "Book_Id")})
 	private List<Book> books;
+	
+	@OneToMany(mappedBy = "user")
+	@JsonManagedReference(value="UF_reference")
+	private List<Feedback> feedbacks;
+	
 
-
-	
-	
-	
 	public User(int id, String firstName, String lastName, String emailid, String password, Set<Role> roles,
-			List<Book> books) {
+			List<Book> books, List<Feedback> feedbacks) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -58,6 +62,17 @@ public class User{
 		this.password = password;
 		this.roles = roles;
 		this.books = books;
+		this.feedbacks = feedbacks;
+	}
+
+
+	public List<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
 	}
 
 

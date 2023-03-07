@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,8 +24,8 @@ public class Category {
 	@Column(name="Category_Name")
 	private String categoryName;
 	
-	@OneToMany(mappedBy = "category")
-	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "category")
+	@JsonManagedReference(value="BC_reference")
 	private List<Book> books;
 
 	public int getId() {

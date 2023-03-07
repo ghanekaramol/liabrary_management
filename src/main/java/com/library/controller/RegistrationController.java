@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.library.model.User;
-import com.library.repository.UserRepository;
 import com.library.service.UserService;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.library.model;
+package com.library.dto;
 
 
 public class BookDTO {
@@ -7,6 +7,15 @@ public class BookDTO {
 	private int categoryId;
 	private int bookId;
 	private int userId;
+	private String categoryName;
+	
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	public int getBookId() {
 		return bookId;
 	}
@@ -31,7 +40,5 @@ public class BookDTO {
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-	
-
 
 }

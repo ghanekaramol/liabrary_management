@@ -1,8 +1,12 @@
 package com.library.model;
 
+import java.util.List;
+
 import org.springframework.context.annotation.ComponentScan;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @ComponentScan
@@ -26,20 +31,37 @@ public class Book {
 	
 	@ManyToOne
 	private User user;
+	
+	@OneToMany(mappedBy = "book")
+	@Column(name="feedbackId")
+	@JsonManagedReference (value="BF_reference")
+	private List<Feedback> feedbacks;
 
-	public Book(int bookId, String issueStatus, String bookName, User user, Category category) {
+	@ManyToOne
+	@JoinColumn(name="Category_Id")
+	@JsonBackReference(value="BC_reference")
+	private Category category;
+
+	
+	
+	public Book(int bookId, String issueStatus, String bookName, User user, List<Feedback> feedbacks,
+			Category category) {
 		super();
 		this.bookId = bookId;
 		this.issueStatus = issueStatus;
 		this.bookName = bookName;
 		this.user = user;
+		this.feedbacks = feedbacks;
 		this.category = category;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="Category_Id")
-	@JsonBackReference
-	private Category category;
+	public List<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
 
 	public int getBookId() {
 		return bookId;

@@ -1,11 +1,16 @@
 package com.library.service;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.library.model.Book;
-import com.library.model.BookDTO;
+import com.library.ResponseClass.BookResponse;
+import com.library.dto.BookDTO;
+import com.library.exception.BookDeleteException;
+import com.library.exception.BookIssueException;
+import com.library.exception.BookRemoveIssueException;
+import com.library.exception.DataNotFoundException;
 import com.library.model.User;
 import com.library.repository.BookRepository;
 import com.library.repository.CategoryRepository;
@@ -35,20 +40,52 @@ public class BookService {
 	}
 	
 	//fetching a single book
-	public Book getBook(Integer bookId)
+	public BookResponse getBook(Integer bookId)
 	{
-		return bookRepository.findById(bookId).get();
+		Book book = bookRepository.findById(bookId).get();
+		
+		if(bookRepository.findById(bookId).isEmpty())
+		{
+			throw new DataNotFoundException();
+		}
+		
+		BookResponse bookRes = new BookResponse();
+		bookRes.setBookName(book.getBookName());
+		bookRes.setCategoryName(book.getCategory().getCategoryName());
+		bookRes.setIssueStatus(book.getIssueStatus());
+		
+		return bookRes;
 	}
 	
 	//fetching all books
-	public List<Book> getAllBook()
+	public List<BookResponse> getAllBook()
 	{
-		return bookRepository.findAll();
+		List<Book> bookList = bookRepository.findAll();
+		if(bookList.isEmpty())
+		{
+			throw new DataNotFoundException();
+		}	
+		
+		List<BookResponse> bookResList = new  ArrayList<BookResponse>();
+		bookList.forEach(
+				
+				(n) -> {
+					BookResponse bookRes = new BookResponse();
+					bookRes.setBookName(n.getBookName());
+					bookRes.setCategoryName(n.getCategory().getCategoryName());
+					bookRes.setIssueStatus(n.getIssueStatus());
+					bookResList.add(bookRes);
+					
+				});
+		return bookResList;	
 	}
 	
 	//delete a book
 	public void deleteBook(Integer bookId)
 	{
+		if(bookRepository.findById(bookId).get().getIssueStatus()!=null) {
+			throw new BookDeleteException();
+		}
 		bookRepository.deleteById(bookId);
 	}
 	
@@ -56,6 +93,10 @@ public class BookService {
 	public Book updateBook(Book book)
 	{
 		Book bookObj = bookRepository.findById(book.getBookId()).get();
+		
+		if(bookRepository.findById(book.getBookId()).isEmpty()) {
+			throw new DataNotFoundException();
+		}
 		bookObj.setBookName(book.getBookName());
 		book.setCategory(bookObj.getCategory());
 		return bookRepository.save(bookObj);	
@@ -66,43 +107,55 @@ public class BookService {
 	{
 			
 		Book book = bookRepository.findById(bookDto.getBookId()).get();
-		User user = userRepository.findById(bookDto.getUserId()).get();
-		if(book.getIssueStatus() == null)
-		{
-			book.setIssueStatus("Issued");
-			book.setUser(user);
-			return bookRepository.save(book);
-		}
-		else {
-			throw new Exception("Book is issued already");
-		}
-		}
-			
-	
-	public Book removeIssuedBook(Integer bookId) throws Exception
-	{
-		try {
-		Book book = bookRepository.findById(bookId).get();
+		
 		if(book.getIssueStatus()!=null)
-		{
-			book.setIssueStatus(null);
-			book.setUser(null);
-			return bookRepository.save(book);
-		}
-		else {
-			throw new Exception();
-		}
-		}catch(Exception e)
-		{
-			throw new Exception();
+			{
+				throw new BookIssueException();
+			}
+		User user = userRepository.findById(bookDto.getUserId()).get();
+		book.setIssueStatus("Issued");
+		book.setUser(user);
+		return bookRepository.save(book);
 		}
 		
+			
+	
+	public Book removeIssuedBook(Integer bookId)
+	{	
+		Book book = bookRepository.findById(bookId).get();
+		if(book.getIssueStatus() == null)
+		{
+			throw new BookRemoveIssueException();
+		}
+			book.setIssueStatus(null);
+			book.setUser(null);
+			return bookRepository.save(book);		
 	}
 
 	//list of issued book
-	public List<Book> listOfIssueBook() throws Exception
+	public List<BookResponse> listOfIssueBook() throws Exception
 	{
-		return bookRepository.findAllIssuedBook();	
+		
+		List<Book> book = bookRepository.findAllIssuedBook();
+		if(book.isEmpty()) {
+			throw new DataNotFoundException();
+		}
+		List<BookResponse> bookResList = new ArrayList<>();
+		book.forEach(
+				
+				(n) ->
+				{
+					BookResponse bookRes = new BookResponse();
+					bookRes.setBookName(n.getBookName());
+					bookRes.setCategoryName(n.getCategory().getCategoryName());
+					bookRes.setIssueStatus(n.getIssueStatus());
+					bookResList.add(bookRes);			
+				}
+				
+				);
+		
+		return bookResList;
+		
 	}
 
 }
