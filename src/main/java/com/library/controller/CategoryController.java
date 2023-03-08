@@ -34,14 +34,14 @@ public class CategoryController {
 	}
 	
 	// Retrieving a category
-	@GetMapping("/getCategory")
+	@GetMapping("/user/getCategory")
 	public ResponseEntity<CategoryResponseDto> getCategory(@RequestBody Integer categoryId)
 	{	
 			return new ResponseEntity<>(CategoryService.getCategory(categoryId),HttpStatus.OK);	
 	}
 	
 	//Retrieving list of Category
-	@GetMapping("/getAllCategory")
+	@GetMapping("/user/getAllCategory")
 	public ResponseEntity<List<CategoryResponseDto>> getAllCategory()
 	{
 			return new ResponseEntity<>(CategoryService.getAllCategory(),HttpStatus.OK);	

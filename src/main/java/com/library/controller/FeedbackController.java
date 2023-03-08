@@ -20,7 +20,7 @@ public class FeedbackController {
 	@Autowired
 	private FeedbackService feedbackService;
 	
-	@PostMapping("/user/feedback")
+	@PostMapping("/useronly/feedback")
 	public ResponseEntity<Message> setFeedback(@RequestBody FeedbackDto feedbackDto )
 	{
 		feedbackService.setFeedback(feedbackDto);

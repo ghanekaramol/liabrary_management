@@ -35,14 +35,14 @@ public class BookController {
 	}
 	
 	//retrieve a book
-	@GetMapping("/getBook")
+	@GetMapping("/user/getBook")
 	public ResponseEntity<BookResponse> getBook(@RequestBody Integer bookId)
 	{
 			return new ResponseEntity<>(bookService.getBook(bookId),HttpStatus.OK);	
 	}
 	
 	//get all book as a list
-	@GetMapping("/getAllBooks")
+	@GetMapping("/user/getAllBooks")
 	public ResponseEntity<List<BookResponse>> getAllBooks()
 	{
 			return new ResponseEntity<>(bookService.getAllBook(),HttpStatus.OK);
@@ -86,7 +86,7 @@ public class BookController {
 	}
 	
 	// list of all issued book
-	@GetMapping("/admin/listOfIssuedBook")
+	@GetMapping("/user/listOfIssuedBook")
 	public ResponseEntity<List<BookResponse>> listOfIssueBook() throws Exception
 	{
 			return new ResponseEntity<>(bookService.listOfIssueBook(),HttpStatus.OK);

@@ -69,4 +69,28 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		
 		return new ResponseEntity<>(body,HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	@ExceptionHandler(UserRoleException.class)
+	public ResponseEntity<Object> handleUserRoleException()
+	{
+		Map<String, Object> body = new HashMap<>();
+		
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", "Role is already removed for the user...");
+		
+		return new ResponseEntity<>(body,HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@ExceptionHandler(UserRoleAssignException.class)
+	public ResponseEntity<Object> handleUserRoleAssignException()
+	{
+		Map<String, Object> body = new HashMap<>();
+		
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", "Role is already assigned to User...");
+		
+		return new ResponseEntity<>(body,HttpStatus.BAD_REQUEST);
+	}
 }

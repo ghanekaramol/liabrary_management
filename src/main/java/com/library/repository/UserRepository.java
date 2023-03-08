@@ -8,5 +8,5 @@ import com.library.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-	User findByEmailid(String emailid);
+	public User findByEmailid(String emailid);
 }
