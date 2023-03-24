@@ -3,6 +3,7 @@ package com.library.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,12 +15,13 @@ import com.library.model.User;
 import com.library.service.UserService;
 
 @RestController
+@CrossOrigin("*")
 public class RegistrationController {
 
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/user/register")
+	@PostMapping("/registerUser")
 	public ResponseEntity<Message> register(@RequestBody User user)
 	{	
 			userService.userRegistration(user);

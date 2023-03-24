@@ -3,6 +3,7 @@ package com.library.service;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.library.exception.DataNotFoundException;
@@ -17,6 +18,8 @@ import com.library.repository.UserRepository;
 public class UserService {
 
 	@Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository; 
@@ -27,6 +30,7 @@ public class UserService {
 		
 		roles.add(roleRepository.findById(2).orElseThrow(() -> new DataNotFoundException()));
 		user.setRoles(roles);
+		userRepository.findByEmailid(user.getEmailid()).setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 
