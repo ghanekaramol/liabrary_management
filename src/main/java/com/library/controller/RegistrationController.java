@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.library.dto.LoginDto;
 import com.library.message.Message;
 import com.library.model.User;
 import com.library.service.UserService;
@@ -20,6 +21,16 @@ public class RegistrationController {
 
 	@Autowired
 	private UserService userService;
+	
+	@PostMapping("/login")
+	public ResponseEntity<Message> login(@RequestBody LoginDto loginDto)
+	{
+		userService.login(loginDto);
+		Message m = new Message();
+		m.setMessage("Loggedin Successfuly !!");
+		return new ResponseEntity<>(m,HttpStatus.OK);
+	}
+	
 	
 	@PostMapping("/registerUser")
 	public ResponseEntity<Message> register(@RequestBody User user)
